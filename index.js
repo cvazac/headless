@@ -26,7 +26,7 @@ async function init() {
     '})()'
 
     const urls = fs.readFileSync('./urls.js').toString().split('\n')
-    for (let i = 0; i < 2+0*urls.length; i++) {
+    for (let i = 0; i < urls.length; i++) {
       const url = urls[i]
       if (!url) continue
 
