@@ -1,0 +1,10 @@
+https://www.google.com
+https://www.youtube.com
+https://www.facebook.com
+https://www.baidu.com
+https://www.wikipedia.org
+https://www.yahoo.com
+https://www.google.co.in
+https://www.qq.com
+https://www.reddit.com
+https://www.amazon.com

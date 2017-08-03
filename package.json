@@ -1,0 +1,27 @@
+{
+  "name": "headless",
+  "version": "1.0.0",
+  "description": "sequentially inject script into websites using headless chrome",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cvazac/headless.git"
+  },
+  "keywords": [
+    "headless",
+    "chrome"
+  ],
+  "author": "Charles Vazac <cvazac@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cvazac/headless/issues"
+  },
+  "homepage": "https://github.com/cvazac/headless#readme",
+  "dependencies": {
+    "chrome-remote-interface": "0.24.3",
+    "delay": "2.0.0"
+  }
+}
