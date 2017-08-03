@@ -1,3 +1,4 @@
+const chromeLauncher = require('chrome-launcher')
 const CDP = require('chrome-remote-interface')
 const timeout = require('delay')
 const fs = require('fs')
@@ -8,14 +9,25 @@ if (process.argv.length < 3) {
   process.exit(1)
 }
 
-init()
+function launchChrome() {
+  return chromeLauncher.launch({
+    chromeFlags: ['--disable-gpu', '--headless']
+  })
+}
 
-async function init() {
-  let cdp
+(async function() {
+  const chrome = await launchChrome()
+  let cdp = await CDP({
+    port: chrome.port
+  })
+  function teardown() {
+    cdp && cdp.close()
+    chrome.kill()
+  }
+
   try {
-    cdp = await CDP()
-
     const {Page, Runtime} = cdp
+    await Promise.all([Page.enable(), Runtime.enable()])
 
     const code = fs.readFileSync(process.argv[2]).toString()
     const expression = '(function() {' +
@@ -30,6 +42,7 @@ async function init() {
       const url = urls[i]
       if (!url) continue
 
+      console.info(`navigating to ${url} ...`)
       await Page.navigate({url})
 
       await Page.loadEventFired()
@@ -38,7 +51,6 @@ async function init() {
 
       const out = await Runtime.evaluate({expression})
       if (out && out.result) {
-        console.info(`results from: ${url}`)
         JSON.parse(out.result.value).forEach(function (args) {
           console.info.apply(console, args)
         })
@@ -46,10 +58,10 @@ async function init() {
       }
     }
 
-    cdp.close()
+    teardown()
   } catch (e) {
-    cdp && cdp.close()
     console.error('Exception caught:', e)
+    teardown()
     process.exit(1)
   }
-}
+})()

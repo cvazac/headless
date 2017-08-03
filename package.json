@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/cvazac/headless#readme",
   "dependencies": {
+    "chrome-launcher": "0.4.0",
     "chrome-remote-interface": "0.24.3",
     "delay": "2.0.0"
   }
