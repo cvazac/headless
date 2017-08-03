@@ -6,6 +6,7 @@ sequentially inject script into websites using headless chrome
 git clone git@github.com:cvazac/headless.git
 cd headless
 npm i
+/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --headless --disable-gpu --remote-debugging-port=9222
 node index.js ./example.js
 ```
 
