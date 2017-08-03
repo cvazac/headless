@@ -25,7 +25,7 @@ async function init() {
       'return JSON.stringify(out)' +
     '})()'
 
-    const urls = fs.readFileSync('./urls.js').toString().split('\n')
+    const urls = fs.readFileSync('./urls.txt').toString().split('\n')
     for (let i = 0; i < urls.length; i++) {
       const url = urls[i]
       if (!url) continue
