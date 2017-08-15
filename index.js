@@ -11,7 +11,11 @@ if (process.argv.length < 3) {
 
 function launchChrome() {
   return chromeLauncher.launch({
-    chromeFlags: ['--disable-gpu', '--headless']
+    chromeFlags: [
+      '--enable-experimental-web-platform-features',
+      '--disable-gpu',
+      '--headless',
+    ],
   })
 }
 
@@ -37,10 +41,10 @@ function launchChrome() {
       'return JSON.stringify(out)' +
     '})()'
 
-    const urls = fs.readFileSync('./urls.txt').toString().split('\n')
+    const urls = fs.readFileSync(process.argv[3] || './urls/alexa.us.txt').toString().split('\n')
     for (let i = 0; i < urls.length; i++) {
       const url = urls[i]
-      if (!url) continue
+      if (!url || url.indexOf('#') === 0) continue
 
       console.info(`navigating to ${url} ...`)
       await Page.navigate({url})
@@ -51,10 +55,14 @@ function launchChrome() {
 
       const out = await Runtime.evaluate({expression})
       if (out && out.result) {
-        JSON.parse(out.result.value).forEach(function (args) {
-          console.info.apply(console, args)
-        })
-        console.info() //creates newline in output
+        if (out.result.subtype === "error") {
+          console.error(out.result.description)
+        } else {
+          JSON.parse(out.result.value).forEach(function (args) {
+            console.info.apply(console, args)
+          })
+          console.info() //creates newline in output
+        }
       }
     }
 
