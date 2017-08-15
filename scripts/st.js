@@ -1,7 +1,8 @@
 ['navigation', 'resource']
   .forEach(function(entryType) {
-    performance.getEntriesByType(entryType).forEach(function(e) {
-      const {name: url, serverTiming = []} = e
+    const entries = performance.getEntriesByType(entryType)
+    log('entries', entryType, entries.length)
+    entries.forEach(function({name: url, serverTiming}) {
       serverTiming.forEach(function({duration}) {
         log('server-timing entry =',
           JSON.stringify({url, entryType, duration}, null, 2))
