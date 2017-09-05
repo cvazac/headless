@@ -34,12 +34,12 @@ function launchChrome() {
     await Promise.all([Page.enable(), Runtime.enable()])
 
     const code = fs.readFileSync(process.argv[2]).toString()
-    const expression = '(function() {' +
-      'var out = [];' +
-      'function log() { out.push(Array.prototype.slice.call(arguments)) };' +
-      code + ';' +
-      'return JSON.stringify(out)' +
-    '})()'
+    const expression = `(function() {
+      var out = []
+      function log() { out.push(Array.prototype.slice.call(arguments)) }
+      ;${code};
+      return JSON.stringify(out)
+    })()`
 
     const urls = fs.readFileSync(process.argv[3] || './urls/alexa.us.txt').toString().split('\n')
     for (let i = 0; i < urls.length; i++) {
