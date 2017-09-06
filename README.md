@@ -6,13 +6,31 @@ sequentially inject script into websites using headless chrome
 git clone git@github.com:cvazac/headless.git
 cd headless
 npm i
-node index.js ./example.js
+```
+
+# usage
+
+```
+# run against a single url
+node index.js ./scripts/example.js http://www.example.com
+
+# run against a list of urls
+node index.js ./scripts/example.js ./urls/alexa.us.txt
 ```
 
 # details
-For each url in `urls.txt`, `headless` does the following:
+For each url, `headless` does the following:
 * loads the page
 * waits for the `onload` event
-* waits another second, just for fun
 * injects the Javascript found at the path you supplied
 * echos all arguments passed to `log()` back to the console 
+
+# async
+If you want to inject asyncronous Javascript, define your script like:
+```javascript
+  new Promise(function(fulfill) {
+    ...
+    fulfill() // ... some time later
+    ...
+  })
+```
